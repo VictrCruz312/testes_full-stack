@@ -1,87 +1,153 @@
-import pandas as pd
-from tqdm import tqdm
 import os
-import zipfile
-from pymongo import MongoClient
-from elasticsearch import Elasticsearch
 import urllib.request
 
-# 1. Fazer o download do arquivo "Estabelecimentos9"
-url = "https://dadosabertos.rfb.gov.br/CNPJ/Empresas9.zip"
-filename = "Empresas9.zip"
-filename_endswith = ".EMPRECSV"
+import zipfile
+from tqdm import tqdm
+import pandas as pd
 
-# verifique se o arquivo já existe na pasta raiz, caso não existe faz o download
-if not os.path.exists(filename):
-    # Mostra a barra de progresso durante o download do arquivo
-    with tqdm(unit="B", unit_scale=True, unit_divisor=1024) as progress:
-        urllib.request.urlretrieve(
-            url,
-            filename,
-            reporthook=lambda blocknum, blocksize, total: progress.update(
-                blocknum * blocksize - progress.n
-            ),
+from pymongo import MongoClient
+from elasticsearch import Elasticsearch
+
+
+def data_processing(
+    url: str,
+    file_name_to_extract: str,
+    file_name_ends_with: str,
+    line_limit_for_reading: int,
+) -> list[dict[any]]:
+    # 1. definir váriaveis de configuração
+    url = "https://dadosabertos.rfb.gov.br/CNPJ/Estabelecimentos9.zip"
+    file_path = "./cache/"
+    file_name_to_extract = "Estabelecimentos9.zip"
+    file_name_ends_with = ".ESTABELE"
+    line_limit_for_reading = 10
+
+    # 2. Verificar se o arquivo já existe no cache, caso não existir realizar o download
+
+    if not os.path.exists(file_path + file_name_to_extract):
+        with tqdm(unit="B", unit_scale=True, unit_divisor=1024) as progress:
+            urllib.request.urlretrieve(
+                url,
+                file_path + file_name_to_extract,
+                reporthook=lambda blocknum, blocksize, total: progress.update(
+                    blocknum * blocksize - progress.n
+                ),
+            )
+
+    # 3 Extrair arquivos
+    zip_file = zipfile.ZipFile(file_path + file_name_to_extract)
+
+    target_file = None
+    for file in zip_file.namelist():
+        if file.endswith(file_name_ends_with):
+            target_file = file
+            break
+
+        # 3.1. Verifique se o arquivo foi encontrado
+    if target_file is None:
+        print(
+            f"Arquivo com fim do nome sendo: '{file_name_ends_with}' não encontrado no arquivo '{file_name_to_extract}'."
         )
+    else:
+        # 3.2. Extraia o arquivo
+        if os.path.exists(file_path + target_file):
+            os.remove(file_path + target_file)
 
-zip_file = zipfile.ZipFile(filename)
+        zip_file.extract(target_file, path=file_path)
+        print(f"Arquivo {target_file} extraído com sucesso.")
 
-target_file = None
-for file in zip_file.namelist():
-    if file.endswith(filename_endswith):
-        target_file = file
-        break
+    # 4. Tratamento de dados
 
-    # Verifique se o arquivo foi encontrado
-if target_file is None:
-    print(f"Arquivo {filename_endswith} não encontrado no arquivo zip.")
-else:
-    # Extraia o arquivo
-    print("zip_file:", zip_file)
-    print("target_file", target_file)
-    zip_file.extract(target_file, path=".")
-    print(f"Arquivo {target_file} extraído com sucesso.")
+    # 4.1. Ler o arquivo CSV e converter para um DataFrame nomeando as colunas.
+    df = pd.read_csv(
+        file_path + target_file,
+        sep=";",
+        encoding="ISO-8859-1",
+        nrows=line_limit_for_reading,
+        usecols=[
+            "CNPJ BÁSICO",
+            "CNPJ ORDEM",
+            "CNPJ DV",
+            "NOME FANTASIA",
+            "CEP",
+            "DDD 1",
+            "TELEFONE 1",
+            "CORREIO ELETRÔNICO",
+        ],
+        names=[
+            "CNPJ BÁSICO",
+            "CNPJ ORDEM",
+            "CNPJ DV",
+            "IDENTIFICADOR MATRIZ/FILIAL",
+            "NOME FANTASIA",
+            "SITUAÇÃO CADASTRAL",
+            "DATA SITUAÇÃO CADASTRAL",
+            "MOTIVO SITUAÇÃO CADASTRAL",
+            "NOME DA CIDADE NO EXTERIOR",
+            "PAIS",
+            "DATA DE INÍCIO ATIVIDADE",
+            "CNAE FISCAL PRINCIPAL",
+            "CNAE FISCAL SECUNDÁRIA",
+            "TIPO DE LOGRADOURO",
+            "LOGRADOURO",
+            "NÚMERO",
+            "COMPLEMENTO",
+            "BAIRRO",
+            "CEP",
+            "UF",
+            "MUNICÍPIO",
+            "DDD 1",
+            "TELEFONE 1",
+            "DDD 2",
+            "TELEFONE 2",
+            "DDD DO FAX",
+            "FAX",
+            "CORREIO ELETRÔNICO",
+            "SITUAÇÃO ESPECIAL",
+            "DATA DA SITUAÇÃO ESPECIAL",
+        ],
+    )
+    # 4.1. Criar coluna "CNPJ completo"
+    df["CNPJ COMPLETO"] = (
+        df["CNPJ BÁSICO"].astype(str).str.zfill(8)
+        + df["CNPJ ORDEM"].astype(str).str.zfill(4)
+        + df["CNPJ DV"].astype(str).str.zfill(2)
+    )
 
-df = pd.read_csv(
-    target_file,
-    sep="|",
-    encoding="ISO-8859-1",
-    usecols=[
-        "CNPJ_BASE",
-        "CNPJ_ORDEM",
-        "CNPJ_DV",
-        "NOME_FANTASIA",
-        "CEP",
-        "DDD_TELEFONE_1",
-        "TELEFONE_1",
-        "EMAIL",
-    ],
-)
+    # 4.2. Criar coluna "TELEFONE"
+    df["TELEFONE"] = df["DDD 1"].astype(str).str.zfill(3) + df["TELEFONE 1"].astype(str)
 
-# 3. Tratamento dos dados para criar o campo "CNPJ completo"
-df["CNPJ completo"] = (
-    df["CNPJ_BASE"].astype(str)
-    + df["CNPJ_ORDEM"].astype(str).str.zfill(4)
-    + df["CNPJ_DV"].astype(str)
-)
-df = df[
-    ["CNPJ completo", "NOME_FANTASIA", "CEP", "DDD_TELEFONE_1", "TELEFONE_1", "EMAIL"]
-]
+    # 4.3. Reorganizar DataFrame para manter apenas as colunas a serem utilizadas
+    df = df[
+        [
+            "CNPJ COMPLETO",
+            "NOME FANTASIA",
+            "CEP",
+            "TELEFONE",
+            "CORREIO ELETRÔNICO",
+        ]
+    ]
+    records = df.to_dict(orient="records")
+    return records
 
-# 4. Inserir os registros no MongoDB
-client = MongoClient("mongodb://localhost:27017/")
-db = client["desafio"]
-collection = db["estabelecimentos"]
-records = df.to_dict(orient="records")
-collection.insert_many(records)
 
-# 5. Inserir os registros no ElasticSearch
-es = Elasticsearch()
-for i, row in df.iterrows():
-    data = {
-        "CNPJ completo": row["CNPJ completo"],
-        "Nome Fantasia": row["NOME_FANTASIA"],
-        "CEP": row["CEP"],
-        "Telefone": f"({row['DDD_TELEFONE_1']}) {row['TELEFONE_1']}",
-        "Email": row["EMAIL"],
-    }
-    es.index(index="desafio", id=i, body=data)
+def insert_data_in_mongodb(data: list[dict[any]]) -> None:
+    # Inserir os registros no MongoDB
+    client = MongoClient("mongodb://localhost:27017/")
+    db = client["desafio"]
+    collection = db["estabelecimentos"]
+    collection.insert_many(data)
+
+
+def insert_data_in_elasticsearch(data: list[dict[any]]) -> None:
+    # 5. Inserir os registros no ElasticSearch
+    es = Elasticsearch()
+    for i, row in data.iterrows():
+        data = {
+            "CNPJ COMPLETO": row["CNPJ COMPLETO"],
+            "Nome Fantasia": row["NOME_FANTASIA"],
+            "CEP": row["CEP"],
+            "Telefone": f"({row['DDD_TELEFONE_1']}) {row['TELEFONE_1']}",
+            "Email": row["EMAIL"],
+        }
+        es.index(index="desafio", id=i, body=data)
