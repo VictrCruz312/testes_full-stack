@@ -11,4 +11,4 @@ if __name__ == "__main__":
         line_limit_for_reading=10,
     )
     insert_data_in_mongodb(data)
-    insert_data_in_elasticsearch(data)
+    # insert_data_in_elasticsearch(data)

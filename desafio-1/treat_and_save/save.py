@@ -8,7 +8,17 @@ def insert_data_in_mongodb(data) -> None:
     db = client["desafio"]
     collection = db["estabelecimentos"]
     collection.insert_many(data)
-    print(db["desafio"].find())
+    for document in data:
+        if collection.find_one({"CNPJ COMPLETO": document["CNPJ COMPLETO"]}):
+            cnpj = document["CNPJ COMPLETO"]
+            print(
+                "Empresa com CNPJ {} já existe na coleção, pulando para a proxima...".format(
+                    document["CNPJ COMPLETO"]
+                )
+            )
+        else:
+            result = collection.insert_one(document)
+            print("Inserida empresa com CNPJ {}.".format(document["CNPJ COMPLETO"]))
 
 
 def insert_data_in_elasticsearch(data) -> None:
