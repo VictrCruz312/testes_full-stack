@@ -12,7 +12,7 @@ def data_processing(
     file_name_to_extract: str,
     file_name_ends_with: str,
     line_limit_for_reading: int,
-) -> list[dict[any]]:
+):
     # 1. definir váriaveis de configuração
     file_path = "./cache/"
 

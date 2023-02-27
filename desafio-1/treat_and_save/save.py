@@ -2,15 +2,16 @@ from pymongo import MongoClient
 from elasticsearch import Elasticsearch
 
 
-def insert_data_in_mongodb(data: list[dict[any]]) -> None:
+def insert_data_in_mongodb(data) -> None:
     # Inserir os registros no MongoDB
-    client = MongoClient("mongodb://localhost:27017/")
+    client = MongoClient("mongodb://mongodb:27017/")
     db = client["desafio"]
     collection = db["estabelecimentos"]
     collection.insert_many(data)
+    print(db["desafio"].find())
 
 
-def insert_data_in_elasticsearch(data: list[dict[any]]) -> None:
+def insert_data_in_elasticsearch(data) -> None:
     # 5. Inserir os registros no ElasticSearch
     es = Elasticsearch()
     for i, row in data.iterrows():
