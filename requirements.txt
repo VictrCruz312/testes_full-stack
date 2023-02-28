@@ -1,6 +1,7 @@
 asttokens==2.2.1
 Babel==2.11.0
 backcall==0.2.0
+bcrypt==4.0.1
 black==23.1.0
 blinker==1.5
 certifi==2022.12.7
@@ -16,9 +17,10 @@ Flask-Login==0.6.2
 Flask-Mail==0.9.1
 flask-mongoengine==1.0.0
 Flask-Principal==0.4.0
-Flask-Security==3.0.0
-Flask-WTF==1.1.1
+Flask-Security-Too==5.1.0
+Flask-WTF==1.0.0
 idna==3.4
+importlib-metadata==6.0.0
 ipdb==0.13.11
 ipython==8.10.0
 itsdangerous==2.1.2
@@ -52,7 +54,9 @@ tdqm==0.0.1
 tomli==2.0.1
 tqdm==4.64.1
 traitlets==5.9.0
+typing_extensions==4.5.0
 urllib3==1.26.14
 wcwidth==0.2.6
 Werkzeug==2.2.3
 WTForms==3.0.1
+zipp==3.15.0
