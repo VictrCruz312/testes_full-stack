@@ -10,5 +10,7 @@ if __name__ == "__main__":
         file_name_ends_with=".ESTABELE",
         line_limit_for_reading=10,
     )
+
+    # deve ser passado como parâmetro das funções abaixo um arquivo de dados no formato de um dicionario python ou json.
     insert_data_in_mongodb(data)
-    # insert_data_in_elasticsearch(data)
+    insert_data_in_elasticsearch(data)

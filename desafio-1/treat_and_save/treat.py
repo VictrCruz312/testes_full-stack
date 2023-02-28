@@ -121,6 +121,10 @@ def data_processing(
             "CORREIO ELETRÔNICO",
         ]
     ]
+
     data = df.to_dict(orient="records")
-    pprint.pprint(data)
+
+    print("\n\n")
+    print("Dados tratados:")
+    print(df)
     return data
