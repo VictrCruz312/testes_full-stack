@@ -10,7 +10,7 @@ def insert_data_in_mongodb(data) -> None:
 
     client = MongoClient("mongodb://mongodb:27017/")
 
-    db = client["desafio"]
+    db = client["desafio-1"]
     collection = db["estabelecimentos"]
 
     for document in data:
@@ -40,7 +40,7 @@ def insert_data_in_elasticsearch(data) -> None:
     for i, row in data.iterrows():
         cnpj = row["CNPJ COMPLETO"]
 
-        if es.exists(index="desafio", id=cnpj):
+        if es.exists(index="desafio-1", id=cnpj):
             print(
                 f"Documento com CNPJ {cnpj} já existe no Elasticsearch. Ignorando a inserção..."
             )
@@ -49,11 +49,11 @@ def insert_data_in_elasticsearch(data) -> None:
         row = row.fillna("")
 
         data = {
-            "cnpj": row["CNPJ COMPLETO"],
-            "nome": row["NOME FANTASIA"],
-            "cep": row["CEP"],
-            "telefone": row["TELEFONE"],
-            "correio": row["CORREIO ELETRÔNICO"],
+            "CNPJ COMPLETO": row["CNPJ COMPLETO"],
+            "NOME FANTASIA": row["NOME FANTASIA"],
+            "CEP": row["CEP"],
+            "TELEFONE": row["TELEFONE"],
+            "CORREIO ELETRÔNICO": row["CORREIO ELETRÔNICO"],
         }
-        es.index(index="desafio", id=cnpj, body=data)["result"]
+        es.index(index="desafio-1", id=cnpj, body=data)["result"]
         print(f"Inserido com sucesso empresa com CNPJ: {cnpj}, no ElasticSearch.")
