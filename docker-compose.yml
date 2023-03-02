@@ -23,6 +23,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
+    environment:
+      - FLASK_DEBUG=True
+      - SECRET_KEY="ODFF3003DNQ0d3n0020"
     depends_on:
       - mongodb
       - elasticsearch
