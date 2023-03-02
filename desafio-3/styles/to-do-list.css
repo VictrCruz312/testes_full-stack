@@ -1,0 +1,165 @@
+/* reset css */
+* {
+  box-sizing: border-box;
+}
+
+/* estilo geral para botão */
+button {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Estilo para o título */
+.title {
+  text-align: center;
+  font-size: 36px;
+
+  color: #3f3f3f;
+}
+
+/* Alinhamento do container de adicionar tarefas */
+.containerAdd {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  gap: 30px;
+  padding-bottom: 60px;
+}
+
+.containerAdd .containerInputAndError {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Estilo para o input */
+.containerInputAndError .inputTask {
+  width: 100%;
+  height: 44px;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+
+  font-size: 18px;
+}
+
+.containerInputAndError .inputTask::placeholder {
+  font-size: 13px;
+}
+
+/* Estilo para o mensagem de erro */
+.spanError {
+  font-size: 13px;
+  font-style: italic;
+  color: #f44336;
+}
+
+/* Estilo para o botão de adicionar task */
+.addTask {
+  width: 115px;
+  height: 44px;
+
+  background-color: #4caf50;
+  font-size: 18px;
+}
+
+.addTask:hover {
+  background-color: #007502;
+}
+
+/* Estilo para a lista de tarefas */
+.List {
+  width: 100%;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  list-style: none;
+}
+
+/* Estilo para as tarefas */
+.List li {
+  width: 100%;
+  max-width: 380px;
+  min-height: 74px;
+  padding: 12px;
+  border-radius: 4px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #b9b9b9;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+}
+
+/* Estilo para o botão de excluir */
+li .deleteTask {
+  height: 36px;
+  padding: 8px;
+
+  background-color: #f44336;
+}
+
+li .deleteTask:hover {
+  background-color: #581510;
+}
+
+/* Estilo para o botão de confirmar */
+.confirmButton {
+  height: 36px;
+  padding: 8px;
+
+  background-color: #4caf50;
+}
+
+.confirmButton:hover {
+  background-color: #007502;
+}
+
+/* Estilo para o input de editar */
+.textareaEdit {
+  width: 100%;
+  height: auto;
+  min-height: 50px;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+
+  font-size: 18px;
+}
+
+/* Estilo para o botão de editar */
+
+.editButton {
+  height: 36px;
+  padding: 8px;
+  margin-left: 10px;
+
+  background-color: #0c110c;
+}
+
+.editButton:hover {
+  background-color: #1e221e;
+}
+
+/* Alinhamento do container de botões da tarefa */
+
+.taskButtons {
+  display: flex;
+  gap: 10px;
+  margin-left: 10px;
+}
