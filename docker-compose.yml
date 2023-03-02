@@ -17,7 +17,7 @@ services:
         soft: -1
         hard: -1
 
-  app:
+  desafio-2:
     build:
       context: .
       dockerfile: Dockerfile
@@ -28,3 +28,10 @@ services:
       - elasticsearch
     volumes:
       - .:/app
+
+  desafio-3:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./desafio-3:/usr/share/nginx/html:ro
