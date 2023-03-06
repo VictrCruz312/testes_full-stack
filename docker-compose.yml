@@ -21,6 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: bash -c "cd desafio-2 && flask run --host 0.0.0.0"
     ports:
       - "5000:5000"
     environment:
@@ -38,3 +39,27 @@ services:
       - "8080:80"
     volumes:
       - ./desafio-3:/usr/share/nginx/html:ro
+
+  desafio-4_back-end:
+    build: .
+    stdin_open: true
+    command: bash -c "cd desafio-4/back-end && python manage.py runserver 0.0.0.0:8000"
+    tty: true
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+
+  desafio-4_front-end:
+    build: ./desafio-4/front-end
+    stdin_open: true
+    command: yarn start
+    tty: true
+    ports:
+      - 3000:3000
+    volumes:
+      - ./desafio-4/front-end:/app
+    depends_on:
+      - desafio-4_back-end
