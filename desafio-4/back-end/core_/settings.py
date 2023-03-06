@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 
 MY_APPS = ["crud_mongodb"]
 
-THIRD_PARTY_APPS = ["rest_framework"]
+THIRD_PARTY_APPS = ["rest_framework", "corsheaders"]
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -54,7 +54,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = "core_.urls"
 

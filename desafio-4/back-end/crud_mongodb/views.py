@@ -98,3 +98,20 @@ class EstabelecimentsUpdateDestroy(APIView):
         collection.delete_one({"_id": ObjectId(estabelecimento_id)})
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def get(self, request, estabelecimento_id):
+        db = get_database()
+        collection = db["estabelecimentos"]
+        estabelecimento = collection.find_one({"_id": ObjectId(estabelecimento_id)})
+
+        if not estabelecimento:
+            return Response(
+                {
+                    "detail": "Estabelecimento com id {} não encontrado".format(
+                        estabelecimento_id
+                    )
+                }
+            )
+        estabelecimento["_id"] = str(estabelecimento["_id"])
+
+        return Response(estabelecimento, status=status.HTTP_200_OK)
