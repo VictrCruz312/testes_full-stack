@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from elasticsearch import Elasticsearch
 import pandas as pd
+import math
 
 
 def insert_data_in_mongodb(data) -> None:
@@ -14,6 +15,10 @@ def insert_data_in_mongodb(data) -> None:
     collection = db["estabelecimentos"]
 
     for document in data:
+        for key in document.keys():
+            if isinstance(document[key], float) and math.isnan(document[key]):
+                document[key] = ""
+
         if collection.find_one({"CNPJ COMPLETO": document["CNPJ COMPLETO"]}):
             print(
                 "Empresa com CNPJ {} já existe na coleção do mongodb, pulando para a proxima...".format(
