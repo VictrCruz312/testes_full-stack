@@ -1,11 +1,14 @@
-import "./App.css";
 import Routers from "./routes";
+import Global from "./styles/global";
 
 function App() {
   return (
-    <div className="App">
-      <Routers />
-    </div>
+    <>
+      <Global />
+      <div className="App">
+        <Routers />
+      </div>
+    </>
   );
 }
 

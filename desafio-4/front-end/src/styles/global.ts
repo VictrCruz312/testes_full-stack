@@ -3,6 +3,25 @@ import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
     :root {
         --font-Inter: 'Inter', sans-serif;
+
+        --color-brand-1: #4529E6;
+        --color-brand-2: #5126EA;
+        --color-brand-3: #B0A6F0;
+        --color-brand-4: #EDEAFD;
+
+        --color-gray-0: #0B0D0D;
+        --color-gray-1: #212529;
+        --color-gray-2: #495057;
+        --color-gray-3: #868E96;
+        --color-gray-4: #ADB5BD;
+        --color-gray-5: #CED4DA;
+        --color-gray-6: #DEE2E6;
+        --color-gray-7: #E9ECEF;
+        --color-gray-8: #F1F3F5;
+        --color-gray-9: #F8F9FA;
+        --color-gray-10: #FDFDFD;
+
+        --color-whiteFixed: #FFFFFF;
     }
 
     * {
