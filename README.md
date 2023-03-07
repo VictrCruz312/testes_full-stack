@@ -63,4 +63,5 @@ cd desafio-1 && python main.py
 - **front-end:** uma aplicação em react + typescript que está consumindo a api do **back-end**, utilizando o axios.
 
 #### front-end possui as seguintes telas:
-**/home** - Lista os estabelecimentos salvos no mongodb com possibilidade de atualiza-los e deletar.
+**/mongo** - Lista os estabelecimentos salvos no mongodb com possibilidade de atualiza-los e deletar.
+**/elastic** - Lista os estabelecimentos salvos no elasticsearch com possibilidade de atualiza-los e deletar.
