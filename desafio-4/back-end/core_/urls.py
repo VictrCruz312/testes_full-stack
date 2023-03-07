@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("mongodb/", include("crud_mongodb.urls")),
+    path("elastic/", include("crud_elasticsearch.urls")),
 ]

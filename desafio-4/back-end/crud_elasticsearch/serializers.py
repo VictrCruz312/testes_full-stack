@@ -10,7 +10,7 @@ class EstabelecimentosSerializer(serializers.ModelSerializer):
         read_only_fields = ["_id"]
 
     def create(self, validated_data):
-        document = {
+        data = {
             "CNPJ COMPLETO": validated_data["cnpj"],
             "NOME FANTASIA": validated_data["nome"],
             "CEP": validated_data["cep"],
@@ -18,13 +18,7 @@ class EstabelecimentosSerializer(serializers.ModelSerializer):
             "CORREIO ELETRÔNICO": validated_data["correio"],
         }
 
-        db = get_database()
-        collection = db["estabelecimentos"]
-        insert_result = collection.insert_one(document)
+        es = get_database()
+        es.index(index="desafio-1", id=validated_data["cnpj"], body=data)["result"]
 
-        if not insert_result.acknowledged:
-            raise serializers.ValidationError(
-                "Houve um problema ao inserir o documento no banco de dados."
-            )
-
-        return {**validated_data, "_id": insert_result.inserted_id}
+        return {"_id": validated_data["cnpj"], **validated_data}

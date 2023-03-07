@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-MY_APPS = ["crud_mongodb"]
+MY_APPS = ["crud_mongodb", "crud_elasticsearch"]
 
 THIRD_PARTY_APPS = ["rest_framework", "corsheaders"]
 
