@@ -16,8 +16,8 @@ class EstabelecimentsListCreate(APIView):
             if len(estabelecimentos_list) > 0:
                 for estabeleciment in estabelecimentos_list:
                     estabeleciment = {
-                        **estabeleciment["_source"],
                         "_id": estabeleciment["_id"],
+                        **estabeleciment["_source"],
                     }
                     estabelecimentos_return.append(estabeleciment)
 
