@@ -18,7 +18,8 @@ export interface IDataEstabeleciment {
 }
 
 const FormUpdateEstabeleciments = () => {
-  const { dataModal, setCloseModal } = useMongo();
+  const { dataModal, setCloseModal, setDataModal } = useMongo();
+
   const formSchema = yup.object().shape({
     cnpj: yup.string().required("CNPJ COMPLETO é obrigatório"),
     nome: yup.string().required("NOME FANTASIA obrigatório"),
@@ -33,9 +34,13 @@ const FormUpdateEstabeleciments = () => {
     formState: { errors },
   } = useForm<IEstabelecimentRequest>({ resolver: yupResolver(formSchema) });
 
-  const submit = (data: IEstabelecimentRequest) => {
-    updateEstabeleciments(data, dataModal ? dataModal["_id"] : "");
+  const submit = async (data: IEstabelecimentRequest) => {
+    const response = await updateEstabeleciments(
+      data,
+      dataModal ? dataModal["_id"] : ""
+    );
     setCloseModal(true);
+    setDataModal(response);
   };
 
   return (
@@ -58,7 +63,7 @@ const FormUpdateEstabeleciments = () => {
         registerName="nome"
       />
       <Input
-        value={dataModal ? dataModal.CEP : ""}
+        value={dataModal ? dataModal["CEP"] : ""}
         placeholder="ex: 01123123"
         label="CEP"
         type="text"
@@ -66,7 +71,7 @@ const FormUpdateEstabeleciments = () => {
         registerName="cep"
       />
       <Input
-        value={dataModal ? dataModal.TELEFONE : ""}
+        value={dataModal ? dataModal["TELEFONE"] : ""}
         placeholder="ex: 11222223333"
         label="TELEFONE"
         type="text"
