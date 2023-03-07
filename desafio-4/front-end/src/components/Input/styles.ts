@@ -38,6 +38,10 @@ export const ContainerInputStyled = styled.div`
     }
   }
 
+  input[type="text"] {
+    text-transform: uppercase;
+  }
+
   span {
     font-size: 12px;
     margin: 0;

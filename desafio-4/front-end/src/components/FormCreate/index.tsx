@@ -1,10 +1,13 @@
 import Button from "../Button";
 import Input from "../Input";
 import { FormCreateStyled } from "./styles";
-import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createEstabeleciments } from "../../services/api";
+import {
+  createEstabeleciments,
+  createEstabelecimentsElastic,
+} from "../../services/api";
+import { formSchema } from "../FormUpdate";
 
 export interface IEstabelecimentRequest {
   cnpj: string;
@@ -14,29 +17,40 @@ export interface IEstabelecimentRequest {
   correio: string;
 }
 
-const FormCreateEstabeleciments = () => {
-  const formSchema = yup.object().shape({
-    cnpj: yup.string().required("CNPJ COMPLETO é obrigatório"),
-    nome: yup.string().required("NOME FANTASIA obrigatório"),
-    cep: yup.string().required("CEP obrigatório"),
-    telefone: yup.string().required("TELEFONE obrigatório"),
-    correio: yup.string().required("CORREIO ELETRÔNICO obrigatório"),
-  });
+interface IPropsFormUpdate {
+  setCloseModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isMongo?: boolean;
+}
 
+const FormCreateEstabeleciments = ({
+  setCloseModal,
+  isMongo = true,
+}: IPropsFormUpdate) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IEstabelecimentRequest>({ resolver: yupResolver(formSchema) });
 
+  const submit = async (data: any) => {
+    if (isMongo) {
+      await createEstabeleciments(data);
+    } else {
+      await createEstabelecimentsElastic(data);
+    }
+    setCloseModal(true);
+    window.location.reload();
+  };
+
   return (
-    <FormCreateStyled onSubmit={handleSubmit(createEstabeleciments)}>
+    <FormCreateStyled onSubmit={handleSubmit(submit)}>
       <Input
         placeholder="ex: 361147170034445"
         label="CNPJ COMPLETO"
         type="text"
         register={register}
         registerName="cnpj"
+        error={errors?.cnpj?.message}
       />
 
       <Input
@@ -45,6 +59,7 @@ const FormCreateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="nome"
+        error={errors?.cnpj?.message}
       />
       <Input
         placeholder="ex: 01123123"
@@ -52,6 +67,7 @@ const FormCreateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="cep"
+        error={errors?.cnpj?.message}
       />
       <Input
         placeholder="ex: 11222223333"
@@ -59,6 +75,7 @@ const FormCreateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="telefone"
+        error={errors?.cnpj?.message}
       />
       <Input
         placeholder="ex: joao@mail.com"
@@ -66,6 +83,7 @@ const FormCreateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="correio"
+        error={errors?.cnpj?.message}
       />
       <Button type="submit">Salvar alterações</Button>
     </FormCreateStyled>

@@ -25,23 +25,26 @@ interface IPropsFormUpdate {
   setCloseModal: React.Dispatch<React.SetStateAction<boolean>>;
   isMongo?: boolean;
 }
+export const formSchema = yup.object().shape({
+  cnpj: yup.string().required("é obrigatório"),
+  nome: yup
+    .string()
+    .transform((value) => value.toUpperCase())
+    .required("obrigatório"),
+  cep: yup.string().required("obrigatório"),
+  telefone: yup.string().required("obrigatório"),
+  correio: yup
+    .string()
+    .transform((value) => value.toUpperCase())
+    .email("deve ser um email válido")
+    .required("obrigatório"),
+});
 
 const FormUpdateEstabeleciments = ({
   dataModal,
   setCloseModal,
   isMongo = true,
 }: IPropsFormUpdate) => {
-  const formSchema = yup.object().shape({
-    cnpj: yup.string().required("é obrigatório"),
-    nome: yup.string().required("obrigatório"),
-    cep: yup.string().required("obrigatório"),
-    telefone: yup.string().required("obrigatório"),
-    correio: yup
-      .string()
-      .email("deve ser um email válido")
-      .required("obrigatório"),
-  });
-
   const {
     register,
     handleSubmit,

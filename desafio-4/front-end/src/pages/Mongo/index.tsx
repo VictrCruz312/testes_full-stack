@@ -8,6 +8,8 @@ import ModalGlobal from "../../components/ModalGlobal";
 import { getEstabeleciments } from "../../services/api";
 import { MongoStyled } from "./styles";
 import { GrFormClose } from "react-icons/gr";
+import Button from "../../components/Button";
+
 const Mongo: React.FC = () => {
   const [dataModal, setDataModal] = useState<IDataEstabeleciment | null>(null);
   const [closeModal, setCloseModal] = useState<boolean>(true);
@@ -32,6 +34,15 @@ const Mongo: React.FC = () => {
   return (
     <MongoStyled>
       <div className="containerEstabeleciments">
+        <Button
+          type="button"
+          onClick={() => {
+            setTypeRequest("post");
+            setCloseModal(false);
+          }}
+        >
+          Cadastrar no MongoDB
+        </Button>
         <table>
           <thead>
             <tr>
@@ -90,7 +101,7 @@ const Mongo: React.FC = () => {
         setCloseModal={setCloseModal}
       >
         {typeRequest === "post" ? (
-          <FormCreateEstabeleciments />
+          <FormCreateEstabeleciments setCloseModal={setCloseModal} />
         ) : typeRequest === "patch" ? (
           dataModal ? (
             <FormUpdateEstabeleciments

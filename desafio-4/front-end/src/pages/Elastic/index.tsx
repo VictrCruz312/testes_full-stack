@@ -5,12 +5,10 @@ import FormUpdateEstabeleciments, {
   IDataEstabeleciment,
 } from "../../components/FormUpdate";
 import ModalGlobal from "../../components/ModalGlobal";
-import {
-  getEstabeleciments,
-  getEstabelecimentsElastic,
-} from "../../services/api";
+import { getEstabelecimentsElastic } from "../../services/api";
 import { ElasticStyled } from "./styles";
 import { GrFormClose } from "react-icons/gr";
+import Button from "../../components/Button";
 const Elastic: React.FC = () => {
   const [dataModal, setDataModal] = useState<IDataEstabeleciment | null>(null);
   const [closeModal, setCloseModal] = useState<boolean>(true);
@@ -35,6 +33,15 @@ const Elastic: React.FC = () => {
   return (
     <ElasticStyled>
       <div className="containerEstabeleciments">
+        <Button
+          type="button"
+          onClick={() => {
+            setTypeRequest("post");
+            setCloseModal(false);
+          }}
+        >
+          Cadastrar no ElasticSearch
+        </Button>
         <table>
           <thead>
             <tr>
@@ -93,7 +100,10 @@ const Elastic: React.FC = () => {
         setCloseModal={setCloseModal}
       >
         {typeRequest === "post" ? (
-          <FormCreateEstabeleciments />
+          <FormCreateEstabeleciments
+            setCloseModal={setCloseModal}
+            isMongo={false}
+          />
         ) : typeRequest === "patch" ? (
           dataModal ? (
             <FormUpdateEstabeleciments
