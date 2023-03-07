@@ -26,8 +26,8 @@ docker-compose up #utilize a frag -d caso não queira ver os logs e não ficar c
 # ou: docker compose up dependendo da versão instalada sem o '-'
 ```
 
-### desafio-1:
-
+## desafio-1:
+#### Desafio 1 é um programa em react que lê um arquivo .csv faz as tratativas dos dados e salva no mongodb e elasticsearch
 #### com os containers rodando execute em outro terminal o seguinte:
 
 ```shell
@@ -48,16 +48,16 @@ cd desafio-1 && python main.py
 - **file_name_ends_with:** a parte final do arquivo csv extraido do .zip (deve ser exatamente igual caso contrário mão será identificado pela função)
 - **line_limit_for_reading:** quantidade de linhas para serem lidas no arquivo .csv para serem salvas no banco de dados.
 
-### desafio-2
+## desafio-2
 #### O desafio-2 que é uma aplicação simples em flask está rodando em ```http://localhost:5000``` e possui as seguintes rotas:
 - **/** - deve estar logado para acessar
 - **/login** - rota de login na aplicação
 - **/register** - rota de registro de usuário
 
-### desafio-3
-#### O desafio 4 é uma aplicação em HTML CSS e JavaScript puro, com tela de menu e uma to-do-list, a aplicação está rodando em ```http://localhost:8080```
+## desafio-3
+#### O desafio 3 é uma aplicação em HTML CSS e JavaScript puro, com tela de menu e uma to-do-list, a aplicação está rodando em ```http://localhost:8080```
 
-### desafio-4
+## desafio-4
 #### O desafio 4 contem dois serviços que são:
 - **back-end:** um CRUD de estabelecimentos utilizando o DJANGO + MongoDB e Pymongo
 - **front-end:** uma aplicação em react + typescript que está consumindo a api do **back-end**, utilizando o axios.
