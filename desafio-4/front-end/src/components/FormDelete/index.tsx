@@ -1,3 +1,4 @@
+import { useMongo } from "../../Context/CrudMongo";
 import { deleteEstabeleciments } from "../../services/api";
 import Button from "../Button";
 import { ModalDeleteStyled } from "./styles";
@@ -11,24 +12,23 @@ export interface IDataEstabeleciment {
   "CORREIO ELETRÔNICO": string;
 }
 
-interface IFormDeleteProps {
-  estabeleciment: IDataEstabeleciment | null;
-}
+const ModalDeleteEstabeleciments = () => {
+  const { dataModal, setCloseModal } = useMongo();
+  const handleDelete = (id: string) => {
+    deleteEstabeleciments(id);
+    setCloseModal(true);
+  };
 
-const ModalDeleteEstabeleciments = ({ estabeleciment }: IFormDeleteProps) => {
   return (
     <ModalDeleteStyled>
-      {estabeleciment ? (
+      {dataModal ? (
         <>
           <h1>Tem certeza que deseja deletar este estabelecimento:</h1>
           <br />
-          <h3>NOME FANTASIA: {estabeleciment["NOME FANTASIA"]}</h3>
+          <h3>NOME FANTASIA: {dataModal["NOME FANTASIA"]}</h3>
           <br />
-          <h3>CNPJ: {estabeleciment["CNPJ COMPLETO"]}</h3>
-          <Button
-            type="button"
-            onClick={() => deleteEstabeleciments(estabeleciment._id)}
-          >
+          <h3>CNPJ: {dataModal["CNPJ COMPLETO"]}</h3>
+          <Button type="button" onClick={() => handleDelete(dataModal._id)}>
             Salvar alterações
           </Button>
         </>

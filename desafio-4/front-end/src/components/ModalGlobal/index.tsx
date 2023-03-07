@@ -1,20 +1,15 @@
 import React from "react";
 import { ModalGlobalStyled } from "./styles";
 import { GrFormClose } from "react-icons/gr";
+import { useMongo } from "../../Context/CrudMongo";
 
 interface IPropsModalGlobal {
   children: React.ReactNode;
   title: string;
-  closeModal: boolean;
-  setCloseModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalGlobal = ({
-  children,
-  title,
-  closeModal,
-  setCloseModal,
-}: IPropsModalGlobal) => {
+const ModalGlobal = ({ children, title }: IPropsModalGlobal) => {
+  const { closeModal, setCloseModal } = useMongo();
   return (
     <ModalGlobalStyled closeModal={closeModal}>
       <div className="containerModal">

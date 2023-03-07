@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { updateEstabeleciments } from "../../services/api";
 import { IEstabelecimentRequest } from "../FormCreate";
+import { useMongo } from "../../Context/CrudMongo";
 
 export interface IDataEstabeleciment {
   _id: string;
@@ -16,14 +17,8 @@ export interface IDataEstabeleciment {
   "CORREIO ELETRÔNICO": string;
 }
 
-interface IFormUpdateProps {
-  estabeleciment: IDataEstabeleciment;
-  setEstabeleciment: React.Dispatch<
-    React.SetStateAction<IDataEstabeleciment | null>
-  >;
-}
-
-const FormUpdateEstabeleciments = ({ estabeleciment }: IFormUpdateProps) => {
+const FormUpdateEstabeleciments = () => {
+  const { dataModal, setCloseModal } = useMongo();
   const formSchema = yup.object().shape({
     cnpj: yup.string().required("CNPJ COMPLETO é obrigatório"),
     nome: yup.string().required("NOME FANTASIA obrigatório"),
@@ -39,13 +34,14 @@ const FormUpdateEstabeleciments = ({ estabeleciment }: IFormUpdateProps) => {
   } = useForm<IEstabelecimentRequest>({ resolver: yupResolver(formSchema) });
 
   const submit = (data: IEstabelecimentRequest) => {
-    updateEstabeleciments(data, estabeleciment["_id"]);
+    updateEstabeleciments(data, dataModal ? dataModal["_id"] : "");
+    setCloseModal(true);
   };
 
   return (
     <FormUpdateStyled onSubmit={handleSubmit(submit)}>
       <Input
-        value={estabeleciment ? estabeleciment["CNPJ COMPLETO"] : ""}
+        value={dataModal ? dataModal["CNPJ COMPLETO"] : ""}
         placeholder="ex: 361147170034445"
         label="CNPJ COMPLETO"
         type="text"
@@ -54,7 +50,7 @@ const FormUpdateEstabeleciments = ({ estabeleciment }: IFormUpdateProps) => {
       />
 
       <Input
-        value={estabeleciment ? estabeleciment["NOME FANTASIA"] : ""}
+        value={dataModal ? dataModal["NOME FANTASIA"] : ""}
         placeholder="ex: João Fulano"
         label="NOME FANTASIA"
         type="text"
@@ -62,7 +58,7 @@ const FormUpdateEstabeleciments = ({ estabeleciment }: IFormUpdateProps) => {
         registerName="nome"
       />
       <Input
-        value={estabeleciment ? estabeleciment.CEP : ""}
+        value={dataModal ? dataModal.CEP : ""}
         placeholder="ex: 01123123"
         label="CEP"
         type="text"
@@ -70,7 +66,7 @@ const FormUpdateEstabeleciments = ({ estabeleciment }: IFormUpdateProps) => {
         registerName="cep"
       />
       <Input
-        value={estabeleciment ? estabeleciment.TELEFONE : ""}
+        value={dataModal ? dataModal.TELEFONE : ""}
         placeholder="ex: 11222223333"
         label="TELEFONE"
         type="text"
@@ -78,7 +74,7 @@ const FormUpdateEstabeleciments = ({ estabeleciment }: IFormUpdateProps) => {
         registerName="telefone"
       />
       <Input
-        value={estabeleciment ? estabeleciment["CORREIO ELETRÔNICO"] : ""}
+        value={dataModal ? dataModal["CORREIO ELETRÔNICO"] : ""}
         placeholder="ex: joao@mail.com"
         label="CORREIO ELETRÔNICO"
         type="text"
