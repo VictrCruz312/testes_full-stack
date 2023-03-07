@@ -37,4 +37,11 @@ export const ContainerInputStyled = styled.div`
       color: var(--color-gray-3);
     }
   }
+
+  span {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    color: red;
+  }
 `;
