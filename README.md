@@ -42,7 +42,7 @@ cd desafio-1 && python main.py
 ```
 #### O desafio 1 já está configurado para baixar o arquivo .zip da base de dados do governo pela url fornecida na chamada da função 'data_processing' em main.py. 
 
-#### Abaixo deixo informações sobre o que são cada um dos parametros desta função:
+#### Abaixo deixo informações sobre o que são cada um dos parâmetros desta função:
 - **url:** é o link de download do arquivo .zip de estabelecimentos
 - **file_name_to_extract:** é o nome que será definido para ser salvo o arquivo que será baixado da url
 - **file_name_ends_with:** a parte final do arquivo csv extraido do .zip (deve ser exatamente igual caso contrário mão será identificado pela função)
