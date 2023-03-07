@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
-import Button from "../../components/Button";
 import FormCreateEstabeleciments from "../../components/FormCreate";
 import ModalDeleteEstabeleciments from "../../components/FormDelete";
 import FormUpdateEstabeleciments, {
   IDataEstabeleciment,
 } from "../../components/FormUpdate";
 import ModalGlobal from "../../components/ModalGlobal";
-import { getEstabeleciments } from "../../services/api";
-import { HomeStyled } from "./styles";
+import {
+  getEstabeleciments,
+  getEstabelecimentsElastic,
+} from "../../services/api";
+import { ElasticStyled } from "./styles";
 import { GrFormClose } from "react-icons/gr";
-import { useMongo } from "../../Context/CrudMongo";
-
-const Home: React.FC = () => {
-  const {
-    dataModal,
-    setDataModal,
-    closeModal,
-    setCloseModal,
-    typeRequest,
-    setTypeRequest,
-  } = useMongo();
+const Elastic: React.FC = () => {
+  const [dataModal, setDataModal] = useState<IDataEstabeleciment | null>(null);
+  const [closeModal, setCloseModal] = useState<boolean>(true);
+  const [typeRequest, setTypeRequest] = useState<"post" | "patch" | "delete">(
+    "post"
+  );
   const [estabeleciments, setEstabeleciments] = useState<
     Array<IDataEstabeleciment | null>
   >([]);
@@ -31,13 +28,12 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    getEstabeleciments().then((response) => {
+    getEstabelecimentsElastic().then((response) => {
       setEstabeleciments(response);
-      console.log(response);
     });
   }, [closeModal]);
   return (
-    <HomeStyled>
+    <ElasticStyled>
       <div className="containerEstabeleciments">
         <table>
           <thead>
@@ -63,7 +59,10 @@ const Home: React.FC = () => {
                 <td className="options">
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={async () => {
+                      await getEstabelecimentsElastic().then((response) => {
+                        setEstabeleciments(response);
+                      });
                       setDataModal(estabeleciment);
                       setTypeRequest("patch");
                       setCloseModal(false);
@@ -88,21 +87,33 @@ const Home: React.FC = () => {
         </table>
       </div>
 
-      <ModalGlobal title={controllerCrud[typeRequest]}>
+      <ModalGlobal
+        title={controllerCrud[typeRequest]}
+        closeModal={closeModal}
+        setCloseModal={setCloseModal}
+      >
         {typeRequest === "post" ? (
           <FormCreateEstabeleciments />
         ) : typeRequest === "patch" ? (
           dataModal ? (
-            <FormUpdateEstabeleciments />
+            <FormUpdateEstabeleciments
+              dataModal={dataModal}
+              setCloseModal={setCloseModal}
+              isMongo={false}
+            />
           ) : (
             ""
           )
         ) : (
-          <ModalDeleteEstabeleciments />
+          <ModalDeleteEstabeleciments
+            dataModal={dataModal}
+            setCloseModal={setCloseModal}
+            isMongo={false}
+          />
         )}
       </ModalGlobal>
-    </HomeStyled>
+    </ElasticStyled>
   );
 };
 
-export default Home;
+export default Elastic;

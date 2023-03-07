@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const HomeStyled = styled.div`
+export const MongoStyled = styled.div`
   width: 100vw;
   display: flex;
   justify-content: center;

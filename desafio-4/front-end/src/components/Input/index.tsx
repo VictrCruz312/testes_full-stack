@@ -9,11 +9,19 @@ interface IPropsButton {
   registerName: string; //name do input que será utilizado no register
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
+  error?: string;
 }
 
 const Input = (props: IPropsButton) => {
-  const { label, register, registerName, onChange, value, ...restProps } =
-    props;
+  const {
+    label,
+    register,
+    registerName,
+    onChange,
+    value,
+    error,
+    ...restProps
+  } = props;
   const [inputValue, setInputValue] = useState(value);
 
   useEffect(() => {
@@ -28,7 +36,9 @@ const Input = (props: IPropsButton) => {
   };
   return (
     <ContainerInputStyled>
-      <label>{label}</label>
+      <label>
+        {label} <span>{error}</span>
+      </label>
       <input
         {...restProps}
         {...register(registerName)}
