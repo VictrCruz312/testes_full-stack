@@ -57,11 +57,13 @@ cd desafio-1 && python main.py
 ## desafio-3
 #### O desafio 3 é uma aplicação em HTML CSS e JavaScript puro, com tela de menu e uma to-do-list, a aplicação está rodando em ```http://localhost:8080```
 
-## desafio-4
-#### O desafio 4 contem dois serviços que são:
+## desafio-4 e desafio-5
+#### Uma api com CRUD de estabelecimentos, com possibilidade de salvar no mongodb e elasticsearch. Possui um front-end com telas de CRUD dos estabelecimentos.
+#### Estes desafios contem dois serviços que são:
 - **back-end:** um CRUD de estabelecimentos utilizando o DJANGO + MongoDB e Pymongo
 - **front-end:** uma aplicação em react + typescript que está consumindo a api do **back-end**, utilizando o axios.
-
+#### Front-end está rodando em ```http://localhost:3000```
+#### Back-end está rodando em ```http://localhost:8000```
 #### front-end possui as seguintes telas:
 - **/mongo** - Lista os estabelecimentos salvos no mongodb com possibilidade de criar, atualizar e deletar.
 - **/elastic** - Lista os estabelecimentos salvos no elasticsearch com possibilidade de criar, atualizar e deletar.
