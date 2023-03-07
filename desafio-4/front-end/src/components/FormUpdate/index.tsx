@@ -39,7 +39,6 @@ const FormUpdateEstabeleciments = ({ estabeleciment }: IFormUpdateProps) => {
   } = useForm<IEstabelecimentRequest>({ resolver: yupResolver(formSchema) });
 
   const submit = (data: IEstabelecimentRequest) => {
-    console.log(estabeleciment["_id"]);
     updateEstabeleciments(data, estabeleciment["_id"]);
   };
 

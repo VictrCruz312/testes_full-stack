@@ -31,7 +31,7 @@ const Home: React.FC = () => {
       setEstabeleciments(response);
       console.log(response);
     });
-  }, []);
+  }, [closeModal]);
   return (
     <HomeStyled>
       <div className="containerEstabeleciments">
