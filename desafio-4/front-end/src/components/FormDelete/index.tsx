@@ -1,5 +1,7 @@
-import { useMongo } from "../../Context/CrudMongo";
-import { deleteEstabeleciments } from "../../services/api";
+import {
+  deleteEstabeleciments,
+  deleteEstabelecimentsElastic,
+} from "../../services/api";
 import Button from "../Button";
 import { ModalDeleteStyled } from "./styles";
 
@@ -12,11 +14,25 @@ export interface IDataEstabeleciment {
   "CORREIO ELETRÔNICO": string;
 }
 
-const ModalDeleteEstabeleciments = () => {
-  const { dataModal, setCloseModal } = useMongo();
-  const handleDelete = (id: string) => {
-    deleteEstabeleciments(id);
+interface IPropsModalDelete {
+  dataModal: IDataEstabeleciment | null;
+  setCloseModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isMongo?: boolean;
+}
+
+const ModalDeleteEstabeleciments = ({
+  dataModal,
+  setCloseModal,
+  isMongo = true,
+}: IPropsModalDelete) => {
+  const handleDelete = async (id: string) => {
+    if (isMongo) {
+      await deleteEstabeleciments(id);
+    } else {
+      await deleteEstabelecimentsElastic(id);
+    }
     setCloseModal(true);
+    window.location.reload();
   };
 
   return (

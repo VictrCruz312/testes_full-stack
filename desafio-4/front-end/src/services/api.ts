@@ -25,5 +25,28 @@ export const updateEstabeleciments = async (data: any, id: string) => {
 };
 
 export const deleteEstabeleciments = async (id: string) => {
-  return api.delete(`/mongodb/estabelecimentos/${id}`).then(({ data }) => data);
+  return api.delete(`/elastic/estabelecimentos/${id}`).then(({ data }) => data);
+};
+
+export const getEstabelecimentsElastic = async () => {
+  return api.get("/elastic/estabelecimentos/").then(({ data }) => data);
+};
+
+export const getEstabelecimentByIdElastic = async (id: string) => {
+  return api.get(`/elastic/estabelecimentos/${id}/`).then(({ data }) => data);
+};
+
+export const createEstabelecimentsElastic = async (data: any) => {
+  return api.post("/elastic/estabelecimentos/", data).then(({ data }) => data);
+};
+
+export const updateEstabelecimentsElastic = async (data: any, id: string) => {
+  return api
+    .patch(`/elastic/estabelecimentos/${id}`, data)
+    .then(({ data }) => data)
+    .catch((err) => console.log(err));
+};
+
+export const deleteEstabelecimentsElastic = async (id: string) => {
+  return api.delete(`/elastic/estabelecimentos/${id}`).then(({ data }) => data);
 };

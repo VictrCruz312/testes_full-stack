@@ -4,9 +4,12 @@ import { FormUpdateStyled } from "./styles";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { updateEstabeleciments } from "../../services/api";
+import {
+  updateEstabeleciments,
+  updateEstabelecimentsElastic,
+} from "../../services/api";
 import { IEstabelecimentRequest } from "../FormCreate";
-import { useMongo } from "../../Context/CrudMongo";
+import { useEffect } from "react";
 
 export interface IDataEstabeleciment {
   _id: string;
@@ -17,14 +20,26 @@ export interface IDataEstabeleciment {
   "CORREIO ELETRÔNICO": string;
 }
 
-const FormUpdateEstabeleciments = () => {
-  const { dataModal, setCloseModal } = useMongo();
+interface IPropsFormUpdate {
+  dataModal: IDataEstabeleciment | null;
+  setCloseModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isMongo?: boolean;
+}
+
+const FormUpdateEstabeleciments = ({
+  dataModal,
+  setCloseModal,
+  isMongo = true,
+}: IPropsFormUpdate) => {
   const formSchema = yup.object().shape({
-    cnpj: yup.string().required("CNPJ COMPLETO é obrigatório"),
-    nome: yup.string().required("NOME FANTASIA obrigatório"),
-    cep: yup.string().required("CEP obrigatório"),
-    telefone: yup.string().required("TELEFONE obrigatório"),
-    correio: yup.string().required("CORREIO ELETRÔNICO obrigatório"),
+    cnpj: yup.string().required("é obrigatório"),
+    nome: yup.string().required("obrigatório"),
+    cep: yup.string().required("obrigatório"),
+    telefone: yup.string().required("obrigatório"),
+    correio: yup
+      .string()
+      .email("deve ser um email válido")
+      .required("obrigatório"),
   });
 
   const {
@@ -33,11 +48,20 @@ const FormUpdateEstabeleciments = () => {
     formState: { errors },
   } = useForm<IEstabelecimentRequest>({ resolver: yupResolver(formSchema) });
 
-  const submit = (data: IEstabelecimentRequest) => {
-    updateEstabeleciments(data, dataModal ? dataModal["_id"] : "");
+  const submit = async (data: IEstabelecimentRequest) => {
+    if (isMongo) {
+      await updateEstabeleciments(data, dataModal ? dataModal["_id"] : "");
+    } else {
+      await updateEstabelecimentsElastic(
+        data,
+        dataModal ? dataModal["_id"] : ""
+      );
+    }
     setCloseModal(true);
+    window.location.reload();
   };
 
+  useEffect(() => {}, [dataModal]);
   return (
     <FormUpdateStyled onSubmit={handleSubmit(submit)}>
       <Input
@@ -47,6 +71,7 @@ const FormUpdateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="cnpj"
+        error={errors?.cnpj?.message}
       />
 
       <Input
@@ -56,6 +81,7 @@ const FormUpdateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="nome"
+        error={errors?.nome?.message}
       />
       <Input
         value={dataModal ? dataModal.CEP : ""}
@@ -64,6 +90,7 @@ const FormUpdateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="cep"
+        error={errors?.cep?.message}
       />
       <Input
         value={dataModal ? dataModal.TELEFONE : ""}
@@ -72,6 +99,7 @@ const FormUpdateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="telefone"
+        error={errors?.telefone?.message}
       />
       <Input
         value={dataModal ? dataModal["CORREIO ELETRÔNICO"] : ""}
@@ -80,6 +108,7 @@ const FormUpdateEstabeleciments = () => {
         type="text"
         register={register}
         registerName="correio"
+        error={errors?.correio?.message}
       />
       <Button type="submit">Salvar alterações</Button>
     </FormUpdateStyled>
