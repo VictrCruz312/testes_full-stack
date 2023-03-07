@@ -6,6 +6,7 @@ export const HomeStyled = styled.div`
   justify-content: center;
 
   .containerEstabeleciments {
+    overflow-x: auto;
     table,
     tr,
     th,
@@ -47,11 +48,17 @@ export const HomeStyled = styled.div`
     }
 
     table {
-      width: 75vw;
+      width: 100%;
     }
 
     th {
       border: 4px solid blue;
+    }
+
+    @media screen and (max-width: 710px) {
+      .extraInformation {
+        display: none;
+      }
     }
   }
 `;
