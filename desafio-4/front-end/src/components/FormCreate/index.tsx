@@ -59,7 +59,7 @@ const FormCreateEstabeleciments = ({
         type="text"
         register={register}
         registerName="nome"
-        error={errors?.cnpj?.message}
+        error={errors?.nome?.message}
       />
       <Input
         placeholder="ex: 01123123"
@@ -67,7 +67,7 @@ const FormCreateEstabeleciments = ({
         type="text"
         register={register}
         registerName="cep"
-        error={errors?.cnpj?.message}
+        error={errors?.cep?.message}
       />
       <Input
         placeholder="ex: 11222223333"
@@ -75,7 +75,7 @@ const FormCreateEstabeleciments = ({
         type="text"
         register={register}
         registerName="telefone"
-        error={errors?.cnpj?.message}
+        error={errors?.telefone?.message}
       />
       <Input
         placeholder="ex: joao@mail.com"
@@ -83,7 +83,7 @@ const FormCreateEstabeleciments = ({
         type="text"
         register={register}
         registerName="correio"
-        error={errors?.cnpj?.message}
+        error={errors?.correio?.message}
       />
       <Button type="submit">Salvar alterações</Button>
     </FormCreateStyled>
