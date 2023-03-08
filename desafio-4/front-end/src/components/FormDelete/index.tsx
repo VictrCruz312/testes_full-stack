@@ -31,8 +31,10 @@ const ModalDeleteEstabeleciments = ({
     } else {
       await deleteEstabelecimentsElastic(id);
     }
-    setCloseModal(true);
-    window.location.reload();
+    setTimeout(() => {
+      setCloseModal(true);
+      window.location.reload();
+    }, 500);
   };
 
   return (
