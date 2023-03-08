@@ -27,7 +27,7 @@ docker-compose up #utilize a frag -d caso não queira ver os logs e não ficar c
 ```
 
 ## desafio-1:
-#### Desafio 1 é um programa em react que lê um arquivo .csv faz as tratativas dos dados e salva no mongodb e elasticsearch
+#### Desafio 1 é um programa em python que lê um arquivo .csv faz as tratativas dos dados e salva no mongodb e elasticsearch
 #### com os containers rodando execute em outro terminal o seguinte:
 
 ```shell
