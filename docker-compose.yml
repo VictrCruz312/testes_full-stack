@@ -55,7 +55,7 @@ services:
   desafio-4_front-end:
     build: ./desafio-4/front-end
     stdin_open: true
-    command: yarn start
+    command: sh -c "yarn && yarn start"
     tty: true
     ports:
       - 3000:3000
