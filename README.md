@@ -31,7 +31,7 @@ docker-compose up #utilize a frag -d caso não queira ver os logs e não ficar c
 #### com os containers rodando execute em outro terminal o seguinte:
 
 ```shell
-docker exec -it teste_fullstack-desafio-4_back-end-1 /bin/bash
+docker exec -it testes_full-stack-desafio-4_front-end-1 /bin/bash
 #para sair do container basta digitar no terminal: exit
 ```
 #### Este comando acessa o container... Após isso:
