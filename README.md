@@ -45,8 +45,8 @@ cd desafio-1 && python main.py
 #### Abaixo deixo informações sobre o que são cada um dos parâmetros desta função:
 - **url:** é o link de download do arquivo .zip de estabelecimentos
 - **file_name_to_extract:** é o nome que será definido para ser salvo o arquivo que será baixado da url
-- **file_name_ends_with:** a parte final do arquivo csv extraido do .zip (deve ser exatamente igual caso contrário mão será identificado pela função)
-- **line_limit_for_reading:** quantidade de linhas para serem lidas no arquivo .csv para serem salvas no banco de dados.
+- **file_name_ends_with:** a parte final do nome do arquivo csv extraido do .zip (deve ser exatamente igual caso contrário não será identificado pela função)
+- **line_limit_for_reading:** quantidade de linhas que devem ser lidas no arquivo .csv para serem salvas no banco de dados.
 
 ## desafio-2
 #### O desafio-2 que é uma aplicação simples em flask está rodando em ```http://localhost:5000``` e possui as seguintes rotas:
