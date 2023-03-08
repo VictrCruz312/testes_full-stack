@@ -19,6 +19,7 @@ def data_processing(
     # 2. Verificar se o arquivo já existe no cache, caso não existir realizar o download
 
     if not os.path.exists(file_path + file_name_to_extract):
+        os.mkdir(file_path)
         with tqdm(unit="B", unit_scale=True, unit_divisor=1024) as progress:
             urllib.request.urlretrieve(
                 url,
