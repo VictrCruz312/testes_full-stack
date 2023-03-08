@@ -26,13 +26,29 @@ interface IPropsFormUpdate {
   isMongo?: boolean;
 }
 export const formSchema = yup.object().shape({
-  cnpj: yup.string().required("é obrigatório"),
+  cnpj: yup
+    .string()
+    .matches(
+      /^[0-9]{0,14}$/,
+      "deve conter somente números e ter no máximo 14 caracteres"
+    )
+    .required("é obrigatório"),
   nome: yup
     .string()
     .transform((value) => value.toUpperCase())
+    .max(150, "deve ter no máximo 150 caracteres")
     .required("obrigatório"),
-  cep: yup.string().required("obrigatório"),
-  telefone: yup.string().required("obrigatório"),
+  cep: yup
+    .string()
+    .matches(
+      /^[0-9]{0,8}$/,
+      "deve conter somente números e ter no máximo 8 caracteres"
+    )
+    .required("obrigatório"),
+  telefone: yup
+    .string()
+    .matches(/^[0-9]{11}$/, "deve ter 11 números, sendo DDD+numero")
+    .required("obrigatório"),
   correio: yup
     .string()
     .transform((value) => value.toUpperCase())
