@@ -25,7 +25,7 @@ export const updateEstabeleciments = async (data: any, id: string) => {
 };
 
 export const deleteEstabeleciments = async (id: string) => {
-  return api.delete(`/elastic/estabelecimentos/${id}`).then(({ data }) => data);
+  return api.delete(`/mongodb/estabelecimentos/${id}`).then(({ data }) => data);
 };
 
 export const getEstabelecimentsElastic = async () => {
